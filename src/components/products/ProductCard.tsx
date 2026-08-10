@@ -166,7 +166,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
             title="Thêm vào giỏ hàng"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-gold" />
-            <span className="hidden sm:inline">Thêm Giỏ</span>
+            <span className="text-[11px] font-bold">Thêm Giỏ</span>
           </button>
         </div>
       </div>
