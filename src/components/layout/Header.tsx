@@ -1,21 +1,29 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   Wine,
   Search,
-  Heart,
   ShoppingBag,
   User,
   Menu,
   X,
-  Phone,
-  Sparkles,
+  Heart,
   ChevronDown,
-  LayoutDashboard,
+  Sparkles,
+  Phone,
+  Clock,
+  ShieldCheck,
+  Award,
+  Gift,
+  Zap,
+  BookOpen,
   LogOut,
+  LayoutDashboard,
+  UserPlus,
 } from 'lucide-react';
 import MegaMenu from './MegaMenu';
 import SearchModal from './SearchModal';
@@ -25,147 +33,139 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useAdminStore } from '@/store/useAdminStore';
 
 export default function Header() {
-  const pathname = usePathname();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
+  const pathname = usePathname();
   const cartCount = useCartStore((state) => state.getCartCount());
   const wishlistItems = useWishlistStore((state) => state.items);
   const { user, isAuthenticated, logout } = useAuthStore();
   const { storeSettings } = useAdminStore();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Streamlined, luxury, uncluttered navigation links
   const navLinks = [
     { label: 'Trang Chủ', href: '/' },
-    { label: 'Sản Phẩm', href: '/products', mega: true },
-    { label: 'Bộ Sưu Tập', href: '/products?category=vang-cao-cap' },
-    { label: 'Khuyến Mãi', href: '/products?discount=true' },
+    { label: 'Sản Phẩm', href: '/products', hasMegaMenu: true },
+    { label: 'Bộ Sưu Tập', href: '/products?tag=collection' },
+    { label: 'Khuyến Mãi', href: '/products?tag=sale' },
     { label: 'Blog', href: '/blog' },
     { label: 'Liên Hệ', href: '/contact' },
   ];
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full font-sans">
-        {/* Top bar info */}
-        <div className="bg-burgundy-deep/95 text-cream/80 text-xs py-2 px-4 sm:px-8 border-b border-gold/20 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <span className="flex items-center gap-1.5 text-gold-light">
-                <Phone className="w-3.5 h-3.5 text-gold" />
-                <span>Hotline VIP: <strong className="text-gold font-bold">{storeSettings.phone}</strong></span>
-              </span>
-              <span className="hidden md:inline-flex items-center gap-1 text-cream/70">
-                <span>📍 Giao hàng siêu tốc Hỏa Tốc trong 2 giờ</span>
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4 text-cream/70">
-              <Link
-                href="/ai-assistant"
-                className="inline-flex items-center gap-1.5 text-gold hover:text-gold-light transition-colors font-semibold"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-gold animate-pulse" />
-                <span>Trợ Lý AI Wine Sommelier</span>
-              </Link>
-              <span className="hidden sm:inline border-l border-gold/20 pl-4 text-cream/60">Cam kết 100% Chính Hãng</span>
-            </div>
+      {/* Top Announcement Bar */}
+      <div className="bg-wine-dark text-cream text-[11px] py-1.5 px-4 border-b border-gold/20 font-sans">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <span className="flex items-center text-gold font-medium">
+              <Phone className="w-3 h-3 mr-1" /> Hotline VIP: {storeSettings.phone}
+            </span>
+            <span className="hidden md:flex items-center text-cream/70">
+              <Clock className="w-3 h-3 mr-1 text-gold" /> Giao hàng siêu tốc Hỏa Tốc trong 2 giờ
+            </span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/ai-assistant"
+              className="flex items-center text-gold-light hover:text-gold transition-colors font-bold"
+            >
+              <Sparkles className="w-3 h-3 mr-1 text-gold animate-pulse" /> Trợ Lý AI Wine Sommelier
+            </Link>
+            <span className="hidden sm:inline text-cream/40">|</span>
+            <span className="hidden sm:flex items-center text-cream/70">
+              <ShieldCheck className="w-3 h-3 mr-1 text-gold" /> Cam kết 100% Chính Hãng
+            </span>
           </div>
         </div>
+      </div>
 
-        {/* Main Luxury Navbar */}
-        <div
-          className={`transition-all duration-300 ${
-            isScrolled
-              ? 'bg-dark/95 backdrop-blur-xl shadow-luxury py-3 border-b border-gold/20'
-              : 'bg-dark/90 backdrop-blur-md py-4 border-b border-white/10'
-          }`}
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-            {/* Mobile Hamburger toggle */}
+      {/* Main Sticky Header */}
+      <header className="sticky top-0 z-40 bg-dark/90 backdrop-blur-xl border-b border-gold/15 transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            
+            {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-cream hover:text-gold transition-colors"
+              className="lg:hidden p-2 rounded-lg text-cream/80 hover:text-gold hover:bg-gold/10 transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
 
-            {/* Brand Logo Dynamic */}
-            <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-              <div className="w-10 h-10 rounded-xl bg-burgundy border border-gold/40 flex items-center justify-center text-gold shadow-gold-glow group-hover:scale-105 transition-transform duration-300">
-                <Wine className="w-6 h-6" />
+            {/* Brand Logo */}
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-10 h-10 rounded-xl bg-wine border border-gold/40 flex items-center justify-center text-gold shadow-gold-glow group-hover:scale-105 transition-transform">
+                <Wine className="w-6 h-6 text-gold" />
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-xl sm:text-2xl font-bold tracking-wider text-gold-light group-hover:text-gold transition-colors whitespace-nowrap">
-                  {storeSettings.storeName}
+                <span className="font-serif text-xl sm:text-2xl font-extrabold tracking-wider gold-text-gradient uppercase">
+                  KBWINE
                 </span>
-                <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70 -mt-1 font-sans font-medium whitespace-nowrap">
-                  Luxury Wine Boutique
+                <span className="text-[9px] uppercase tracking-[0.2em] text-cream/60 font-sans -mt-1">
+                  LUXURY WINE BOUTIQUE
                 </span>
               </div>
             </Link>
 
-            {/* Desktop Streamlined Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-8">
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center space-x-1 font-sans">
               {navLinks.map((link) => {
-                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href.split('?')[0]));
-                return (
-                  <div
-                    key={link.href}
-                    className="relative py-2"
-                    onMouseEnter={() => link.mega && setIsMegaMenuOpen(true)}
-                    onMouseLeave={() => link.mega && setIsMegaMenuOpen(false)}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsMegaMenuOpen(false)}
-                      className={`text-sm font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap ${
-                        isActive
-                          ? 'text-gold font-bold tracking-wide'
-                          : 'text-cream/90 hover:text-gold tracking-wide'
-                      }`}
+                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                if (link.hasMegaMenu) {
+                  return (
+                    <div
+                      key={link.href}
+                      className="relative"
+                      onMouseEnter={() => setIsMegaMenuOpen(true)}
+                      onMouseLeave={() => setIsMegaMenuOpen(false)}
                     >
-                      <span>{link.label}</span>
-                      {link.mega && (
-                        <ChevronDown
-                          className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                            isMegaMenuOpen ? 'rotate-180 text-gold' : 'text-gold/70'
-                          }`}
-                        />
-                      )}
-                    </Link>
+                      <Link
+                        href={link.href}
+                        className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 ${
+                          isActive
+                            ? 'text-gold bg-gold/10 border border-gold/30 shadow-gold-glow'
+                            : 'text-cream/90 hover:text-gold hover:bg-gold/10'
+                        }`}
+                      >
+                        <span>{link.label}</span>
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isMegaMenuOpen ? 'rotate-180 text-gold' : ''}`} />
+                      </Link>
 
-                    {/* Active Underline Indicator */}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gold-gradient rounded-full shadow-gold-glow" />
-                    )}
-                  </div>
+                      {/* Mega Menu Dropdown */}
+                      {isMegaMenuOpen && (
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
+                          <MegaMenu />
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                      isActive
+                        ? 'text-gold bg-gold/10 border border-gold/30 shadow-gold-glow'
+                        : 'text-cream/90 hover:text-gold hover:bg-gold/10'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
                 );
               })}
             </nav>
 
             {/* Right Tools */}
-            <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               {/* Search Trigger */}
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="p-2.5 rounded-full text-cream/90 hover:text-gold hover:bg-gold/10 transition-colors relative"
+                className="p-2 rounded-full text-cream/90 hover:text-gold hover:bg-gold/10 transition-colors relative"
                 aria-label="Search"
                 title="Tìm kiếm"
               >
@@ -175,7 +175,7 @@ export default function Header() {
               {/* Wishlist Icon */}
               <Link
                 href="/wishlist"
-                className="p-2.5 rounded-full text-cream/90 hover:text-gold hover:bg-gold/10 transition-colors relative"
+                className="p-2 rounded-full text-cream/90 hover:text-gold hover:bg-gold/10 transition-colors relative hidden sm:flex"
                 aria-label="Wishlist"
                 title="Danh sách yêu thích"
               >
@@ -190,7 +190,7 @@ export default function Header() {
               {/* Cart Icon with badge count */}
               <Link
                 href="/cart"
-                className="px-3.5 py-2.5 rounded-xl bg-wine-gradient text-gold-light hover:text-gold border border-gold/40 hover:border-gold transition-all duration-300 flex items-center gap-2 shadow-wine-glow active:scale-95"
+                className="px-3 py-2 rounded-xl bg-wine-gradient text-gold-light hover:text-gold border border-gold/40 hover:border-gold transition-all duration-300 flex items-center gap-1.5 shadow-wine-glow active:scale-95"
                 aria-label="Shopping Cart"
               >
                 <div className="relative">
@@ -204,102 +204,112 @@ export default function Header() {
                 <span className="hidden sm:inline text-xs font-bold whitespace-nowrap">Giỏ Hàng</span>
               </Link>
 
-              {/* Account Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="p-2.5 rounded-full text-cream/90 hover:text-gold hover:bg-gold/10 transition-colors flex items-center gap-1.5"
-                  title="Tài khoản"
-                >
-                  <User className="w-5 h-5 text-gold" />
-                  {isAuthenticated && user && (
-                    <span className="hidden md:inline text-xs text-gold-light max-w-[100px] truncate font-medium">
+              {/* Explicit Mobile & Desktop Account Register/Login Button */}
+              {isAuthenticated && user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="p-2 rounded-xl bg-dark-card border border-gold/30 text-cream/90 hover:text-gold transition-colors flex items-center gap-1.5"
+                    title="Tài khoản"
+                  >
+                    <User className="w-5 h-5 text-gold" />
+                    <span className="hidden md:inline text-xs text-gold-light max-w-[90px] truncate font-bold">
                       {user.fullName}
                     </span>
-                  )}
-                </button>
+                  </button>
 
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 glass-panel rounded-xl border border-gold/30 shadow-luxury py-2 z-50 text-xs">
-                    {isAuthenticated && user ? (
-                      <div>
-                        <div className="px-4 py-2 border-b border-gold/10">
-                          <p className="font-semibold text-gold-light">{user.fullName}</p>
-                          <p className="text-[11px] text-cream/60 truncate">{user.email}</p>
-                          <span className="inline-block mt-1 px-2 py-0.5 rounded bg-gold/20 text-gold text-[10px] uppercase font-bold">
-                            Hạng: {user.tier}
-                          </span>
-                        </div>
-                        <Link
-                          href="/account"
-                          onClick={() => setIsUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2.5 hover:bg-gold/15 text-cream hover:text-gold transition-colors"
-                        >
-                          <User className="w-4 h-4 text-gold" />
-                          <span>Tài Khoản Của Tôi</span>
-                        </Link>
-                        {['super_admin', 'admin', 'manager', 'sales', 'warehouse', 'content_editor'].includes(user.role) && (
-                          <Link
-                            href="/admin"
-                            onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-2 px-4 py-2.5 bg-burgundy/40 hover:bg-burgundy text-gold-light font-semibold transition-colors"
-                          >
-                            <LayoutDashboard className="w-4 h-4 text-gold" />
-                            <span>Quản Lý Admin</span>
-                          </Link>
-                        )}
-                        <button
-                          onClick={() => {
-                            logout();
-                            setIsUserMenuOpen(false);
-                          }}
-                          className="w-full flex items-center gap-2 px-4 py-2.5 text-left text-red-400 hover:bg-red-950/40 transition-colors"
-                        >
-                          <LogOut className="w-4 h-4" />
-                          <span>Đăng Xuất</span>
-                        </button>
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-56 glass-panel rounded-xl border border-gold/30 shadow-luxury py-2 z-50 text-xs">
+                      <div className="px-4 py-2 border-b border-gold/10">
+                        <p className="font-semibold text-gold-light">{user.fullName}</p>
+                        <p className="text-[11px] text-cream/60 truncate">{user.email}</p>
+                        <span className="inline-block mt-1 px-2 py-0.5 rounded bg-gold/20 text-gold text-[10px] uppercase font-bold">
+                          Hạng: {user.tier}
+                        </span>
                       </div>
-                    ) : (
-                      <div className="p-3 text-center">
-                        <p className="text-cream/80 mb-3">Đăng nhập để xem thông tin đơn hàng và ưu đãi dành riêng cho bạn.</p>
+                      <Link
+                        href="/account"
+                        onClick={() => setIsUserMenuOpen(false)}
+                        className="block px-4 py-2 text-cream hover:bg-gold/10 hover:text-gold transition-colors"
+                      >
+                        Quản Lý Tài Khoản VIP
+                      </Link>
+                      {['super_admin', 'admin', 'manager', 'sales', 'warehouse', 'content_editor'].includes(user.role) && (
                         <Link
-                          href="/account"
+                          href="/admin"
                           onClick={() => setIsUserMenuOpen(false)}
-                          className="block w-full py-2 rounded-lg bg-wine-gradient text-gold-light font-semibold border border-gold/30 hover:border-gold"
+                          className="flex items-center gap-2 px-4 py-2 text-gold-light font-bold hover:bg-burgundy/50 transition-colors border-t border-gold/10"
                         >
-                          Đăng Nhập / Đăng Ký
+                          <LayoutDashboard className="w-3.5 h-3.5 text-gold" />
+                          <span>Admin Dashboard</span>
                         </Link>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+                      )}
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-950/40 transition-colors border-t border-gold/10 flex items-center gap-2"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        <span>Đăng Xuất</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  href="/account"
+                  className="px-2.5 sm:px-3.5 py-2 rounded-xl bg-gold/15 hover:bg-gold/25 text-gold border border-gold/40 hover:border-gold transition-all text-xs font-bold flex items-center gap-1.5 active:scale-95 shadow-gold-glow"
+                  title="Đăng Ký hoặc Đăng Nhập"
+                >
+                  <UserPlus className="w-4 h-4 text-gold" />
+                  <span className="text-[11px] font-extrabold whitespace-nowrap">Đăng Ký / Đăng Nhập</span>
+                </Link>
+              )}
+
             </div>
           </div>
-
-          {/* Desktop Mega Menu display */}
-          {isMegaMenuOpen && (
-            <div
-              onMouseEnter={() => setIsMegaMenuOpen(true)}
-              onMouseLeave={() => setIsMegaMenuOpen(false)}
-            >
-              <MegaMenu />
-            </div>
-          )}
         </div>
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden glass-panel-dark border-b border-gold/20 p-6 space-y-4 max-h-[80vh] overflow-y-auto">
-            <nav className="flex flex-col space-y-3 font-sans">
+          <div className="lg:hidden glass-panel-dark border-b border-gold/20 p-5 space-y-4 max-h-[85vh] overflow-y-auto">
+            
+            {/* Direct Mobile Register / Login Banner inside Drawer */}
+            <div className="p-3.5 rounded-2xl bg-wine-gradient border border-gold/40 shadow-wine-glow flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-dark-card border border-gold/40 flex items-center justify-center text-gold">
+                  <User className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-gold-light">
+                    {isAuthenticated && user ? user.fullName : 'Tài Khoản KBWINE'}
+                  </h4>
+                  <p className="text-[11px] text-cream/70">
+                    {isAuthenticated && user ? user.email : 'Đăng ký nhận ưu đãi chiết khấu 10%'}
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href="/account"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-3.5 py-2 rounded-xl bg-gold text-dark font-extrabold text-xs shadow-gold-glow hover:scale-105 transition-transform"
+              >
+                {isAuthenticated ? 'Vào Hồ Sơ' : 'Đăng Ký / Nhập'}
+              </Link>
+            </div>
+
+            <nav className="flex flex-col space-y-2 font-sans">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`py-2.5 px-3.5 rounded-xl text-sm transition-colors ${
+                  className={`py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors ${
                     pathname === link.href
-                      ? 'bg-gold/20 text-gold font-bold border border-gold/30'
+                      ? 'bg-gold/20 text-gold border border-gold/30'
                       : 'text-cream/90 hover:bg-white/5 hover:text-gold'
                   }`}
                 >
@@ -312,21 +322,21 @@ export default function Header() {
             <div className="pt-3 border-t border-gold/15">
               <span className="text-xs uppercase font-bold text-gold tracking-wider block mb-2">Danh Mục Nhanh</span>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <Link href="/products?category=vang-do" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded bg-dark-card text-cream/80 hover:text-gold">Rượu Vang Đỏ</Link>
-                <Link href="/products?category=vang-trang" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded bg-dark-card text-cream/80 hover:text-gold">Rượu Vang Trắng</Link>
-                <Link href="/products?category=champagne" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded bg-dark-card text-cream/80 hover:text-gold">Champagne Pháp</Link>
-                <Link href="/products?category=vang-cao-cap" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded bg-dark-card text-cream/80 hover:text-gold">Vang Cao Cấp Icon</Link>
+                <Link href="/products?category=vang-do" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Rượu Vang Đỏ</Link>
+                <Link href="/products?category=vang-trang" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Rượu Vang Trắng</Link>
+                <Link href="/products?category=champagne" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Champagne Pháp</Link>
+                <Link href="/products?category=vang-cao-cap" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Vang Icon 1855</Link>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-gold/10">
+            <div className="pt-3 border-t border-gold/10">
               <Link
                 href="/ai-assistant"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 p-3 rounded-xl bg-gold-gradient text-dark font-bold text-sm shadow-gold-glow"
+                className="flex items-center justify-center gap-2 p-3 rounded-xl bg-gold-gradient text-dark font-bold text-xs shadow-gold-glow"
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Trợ Lý Trí Tuệ Nhân Tạo Rượu Vang</span>
+                <span>Trợ Lý Trí Tuệ Nhân Tạo Wine Sommelier</span>
               </Link>
             </div>
           </div>

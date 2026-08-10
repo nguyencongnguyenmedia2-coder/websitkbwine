@@ -6,12 +6,14 @@ import { usePathname } from 'next/navigation';
 import { Sparkles, ArrowUp, PhoneCall, Home, Wine, ShoppingBag, User } from 'lucide-react';
 import { useAdminStore } from '@/store/useAdminStore';
 import { useCartStore } from '@/store/useCartStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function FloatingActions() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const pathname = usePathname();
   const { storeSettings } = useAdminStore();
   const cartCount = useCartStore((state) => state.getCartCount());
+  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,13 +114,13 @@ export default function FloatingActions() {
           </Link>
 
           <Link
-            href="/ai-assistant"
+            href="/account"
             className={`flex flex-col items-center justify-center py-1 transition-colors ${
-              pathname === '/ai-assistant' ? 'text-gold font-bold' : 'text-gold-light hover:text-gold'
+              pathname === '/account' ? 'text-gold font-bold' : 'text-gold-light hover:text-gold'
             }`}
           >
-            <Sparkles className="w-5 h-5 text-gold animate-pulse mb-0.5" />
-            <span className="text-[10px] font-bold">Trợ Lý AI</span>
+            <User className="w-5 h-5 mb-0.5 text-gold" />
+            <span className="text-[10px] font-bold">{isAuthenticated ? 'Hồ Sơ' : 'Đăng Ký'}</span>
           </Link>
 
           <a
@@ -126,7 +128,7 @@ export default function FloatingActions() {
             className="flex flex-col items-center justify-center py-1 text-emerald-400 hover:text-emerald-300 transition-colors"
           >
             <PhoneCall className="w-5 h-5 mb-0.5" />
-            <span className="text-[10px]">Gọi Hotline</span>
+            <span className="text-[10px]">Hotline</span>
           </a>
 
         </div>
