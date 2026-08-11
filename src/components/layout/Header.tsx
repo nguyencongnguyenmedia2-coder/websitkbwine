@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -13,6 +13,7 @@ import {
   X,
   Heart,
   ChevronDown,
+  ChevronRight,
   Sparkles,
   Phone,
   Clock,
@@ -24,6 +25,8 @@ import {
   LogOut,
   LayoutDashboard,
   UserPlus,
+  Grape,
+  Globe,
 } from 'lucide-react';
 import MegaMenu from './MegaMenu';
 import SearchModal from './SearchModal';
@@ -35,8 +38,11 @@ import { useAdminStore } from '@/store/useAdminStore';
 export default function Header() {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const pathname = usePathname();
   const cartCount = useCartStore((state) => state.getCartCount());
@@ -44,11 +50,22 @@ export default function Header() {
   const { user, isAuthenticated, logout } = useAuthStore();
   const { storeSettings } = useAdminStore();
 
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsMegaMenuOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsMegaMenuOpen(false);
+    }, 200);
+  };
+
   const navLinks = [
     { label: 'Trang Chủ', href: '/' },
     { label: 'Sản Phẩm', href: '/products', hasMegaMenu: true },
-    { label: 'Bộ Sưu Tập', href: '/products?tag=collection' },
-    { label: 'Khuyến Mãi', href: '/products?tag=sale' },
+    { label: 'Bộ Sưu Tập', href: '/products?category=vang-cao-cap' },
+    { label: 'Khuyến Mãi', href: '/products?discount=true' },
     { label: 'Blog', href: '/blog' },
     { label: 'Liên Hệ', href: '/contact' },
   ];
@@ -82,7 +99,7 @@ export default function Header() {
       </div>
 
       {/* Main Sticky Header */}
-      <header className="sticky top-0 z-40 bg-dark/90 backdrop-blur-xl border-b border-gold/15 transition-all">
+      <header className="sticky top-0 z-40 bg-[#0F0E13] border-b border-gold/20 shadow-2xl transition-all relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
@@ -118,14 +135,14 @@ export default function Header() {
                   return (
                     <div
                       key={link.href}
-                      className="relative"
-                      onMouseEnter={() => setIsMegaMenuOpen(true)}
-                      onMouseLeave={() => setIsMegaMenuOpen(false)}
+                      className="py-6 px-1"
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
                     >
                       <Link
                         href={link.href}
                         className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 ${
-                          isActive
+                          isActive || isMegaMenuOpen
                             ? 'text-gold bg-gold/10 border border-gold/30 shadow-gold-glow'
                             : 'text-cream/90 hover:text-gold hover:bg-gold/10'
                         }`}
@@ -133,13 +150,6 @@ export default function Header() {
                         <span>{link.label}</span>
                         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isMegaMenuOpen ? 'rotate-180 text-gold' : ''}`} />
                       </Link>
-
-                      {/* Mega Menu Dropdown */}
-                      {isMegaMenuOpen && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
-                          <MegaMenu />
-                        </div>
-                      )}
                     </div>
                   );
                 }
@@ -209,7 +219,7 @@ export default function Header() {
                 <div className="relative">
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="p-2 rounded-xl bg-dark-card border border-gold/30 text-cream/90 hover:text-gold transition-colors flex items-center gap-1.5"
+                    className="p-2 rounded-xl bg-[#1C1A26] border border-gold/30 text-cream/90 hover:text-gold transition-colors flex items-center gap-1.5"
                     title="Tài khoản"
                   >
                     <User className="w-5 h-5 text-gold" />
@@ -219,7 +229,7 @@ export default function Header() {
                   </button>
 
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-56 glass-panel rounded-xl border border-gold/30 shadow-luxury py-2 z-50 text-xs">
+                    <div className="absolute right-0 mt-2 w-56 bg-[#16141D] rounded-xl border border-gold/30 shadow-2xl py-2 z-50 text-xs">
                       <div className="px-4 py-2 border-b border-gold/10">
                         <p className="font-semibold text-gold-light">{user.fullName}</p>
                         <p className="text-[11px] text-cream/60 truncate">{user.email}</p>
@@ -272,9 +282,20 @@ export default function Header() {
           </div>
         </div>
 
+        {/* Full-width MegaMenu Dropdown */}
+        {isMegaMenuOpen && (
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="absolute top-full left-0 w-full z-50 shadow-2xl transition-all duration-300 animate-in fade-in slide-in-from-top-2 bg-[#0F0E13]"
+          >
+            <MegaMenu onClose={() => setIsMegaMenuOpen(false)} />
+          </div>
+        )}
+
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden glass-panel-dark border-b border-gold/20 p-5 space-y-4 max-h-[85vh] overflow-y-auto">
+          <div className="lg:hidden bg-[#0F0E13] border-b border-gold/25 p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl">
             
             {/* Direct Mobile Register / Login Banner inside Drawer */}
             <div className="p-3.5 rounded-2xl bg-wine-gradient border border-gold/40 shadow-wine-glow flex items-center justify-between">
@@ -302,32 +323,96 @@ export default function Header() {
             </div>
 
             <nav className="flex flex-col space-y-2 font-sans">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors ${
-                    pathname === link.href
-                      ? 'bg-gold/20 text-gold border border-gold/30'
-                      : 'text-cream/90 hover:bg-white/5 hover:text-gold'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+              <Link
+                href="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors ${
+                  pathname === '/' ? 'bg-gold/20 text-gold border border-gold/30' : 'text-cream/90 hover:bg-white/5 hover:text-gold'
+                }`}
+              >
+                Trang Chủ
+              </Link>
 
-            {/* Quick Categories for Mobile Drawer */}
-            <div className="pt-3 border-t border-gold/15">
-              <span className="text-xs uppercase font-bold text-gold tracking-wider block mb-2">Danh Mục Nhanh</span>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <Link href="/products?category=vang-do" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Rượu Vang Đỏ</Link>
-                <Link href="/products?category=vang-trang" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Rượu Vang Trắng</Link>
-                <Link href="/products?category=champagne" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Champagne Pháp</Link>
-                <Link href="/products?category=vang-cao-cap" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-dark-card border border-gold/10 text-cream/80 hover:text-gold">Vang Icon 1855</Link>
+              {/* Expandable Mobile Product Category Accordion */}
+              <div className="rounded-xl border border-gold/20 overflow-hidden bg-dark-card/40">
+                <button
+                  onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
+                  className="w-full flex items-center justify-between py-3 px-3.5 text-xs font-bold uppercase tracking-wider text-gold-light hover:bg-gold/10 transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <Wine className="w-4 h-4 text-gold" /> Danh Mục Sản Phẩm
+                  </span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isMobileCategoriesOpen ? 'rotate-180 text-gold' : ''}`} />
+                </button>
+
+                {isMobileCategoriesOpen && (
+                  <div className="p-3 space-y-3 bg-dark/60 border-t border-gold/15 text-xs">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gold/70 tracking-widest block mb-1.5">
+                        Loại Rượu Vang
+                      </span>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        <Link href="/products?category=vang-do" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface hover:bg-gold/15 text-cream/80 hover:text-gold">Vang Đỏ</Link>
+                        <Link href="/products?category=vang-trang" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface hover:bg-gold/15 text-cream/80 hover:text-gold">Vang Trắng</Link>
+                        <Link href="/products?category=vang-hong" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface hover:bg-gold/15 text-cream/80 hover:text-gold">Vang Hồng</Link>
+                        <Link href="/products?category=champagne" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface hover:bg-gold/15 text-cream/80 hover:text-gold">Champagne</Link>
+                        <Link href="/products?category=sparkling" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface hover:bg-gold/15 text-cream/80 hover:text-gold">Sparkling</Link>
+                        <Link href="/products?category=vang-cao-cap" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface hover:bg-gold/15 text-cream/80 text-gold font-bold">Icon Grand Cru</Link>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gold/70 tracking-widest block mb-1.5 flex items-center gap-1">
+                        <Grape className="w-3 h-3 text-gold" /> Giống Nho Nổi Bật
+                      </span>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        <Link href="/products?grape=Cabernet%20Sauvignon" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface text-cream/70 hover:text-gold truncate">Cabernet Sauv.</Link>
+                        <Link href="/products?grape=Pinot%20Noir" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface text-cream/70 hover:text-gold truncate">Pinot Noir</Link>
+                        <Link href="/products?grape=Chardonnay" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface text-cream/70 hover:text-gold truncate">Chardonnay</Link>
+                        <Link href="/products?grape=Shiraz" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg bg-dark-surface text-cream/70 hover:text-gold truncate">Shiraz / Syrah</Link>
+                      </div>
+                    </div>
+
+                    <Link
+                      href="/products"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block text-center py-2 rounded-lg bg-gold/20 text-gold font-bold hover:bg-gold/30 transition-colors mt-2"
+                    >
+                      Xem Tất Cả Sản Phẩm →
+                    </Link>
+                  </div>
+                )}
               </div>
-            </div>
+
+              <Link
+                href="/products?category=vang-cao-cap"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-cream/90 hover:bg-white/5 hover:text-gold"
+              >
+                Bộ Sưu Tập
+              </Link>
+              <Link
+                href="/products?discount=true"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-gold-light hover:bg-white/5"
+              >
+                Khuyến Mãi
+              </Link>
+              <Link
+                href="/blog"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-cream/90 hover:bg-white/5 hover:text-gold"
+              >
+                Blog
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-2.5 px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-cream/90 hover:bg-white/5 hover:text-gold"
+              >
+                Liên Hệ
+              </Link>
+            </nav>
 
             <div className="pt-3 border-t border-gold/10">
               <Link
@@ -342,6 +427,7 @@ export default function Header() {
           </div>
         )}
       </header>
+
 
       {/* Global Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />

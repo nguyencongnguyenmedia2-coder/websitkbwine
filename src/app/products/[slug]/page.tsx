@@ -411,18 +411,71 @@ export default function ProductDetailPage() {
             )}
 
             {activeTab === 'notes' && (
-              <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-burgundy/30 border border-gold/20">
-                  <h4 className="font-serif text-base font-bold text-gold-light mb-1">🍷 Tasting Notes (Ghi Chú Hương Vị)</h4>
-                  <p>{product.wineNotes}</p>
+              <div className="space-y-6">
+                <div className="p-5 rounded-2xl bg-gradient-to-r from-burgundy/40 to-dark-card border border-gold/30 space-y-3">
+                  <h4 className="font-serif text-lg font-bold text-gold-light flex items-center gap-2">
+                    <Wine className="w-5 h-5 text-gold" /> Ghi Chú Hương Vị Từ Sommelier Quốc Tế
+                  </h4>
+                  <p className="text-sm leading-relaxed text-cream/90">{product.wineNotes}</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-gold/15 text-xs">
+                    <div className="p-2.5 rounded-xl bg-dark/60 border border-gold/10">
+                      <span className="text-gold/70 block text-[10px] uppercase font-bold">Thân Vị (Body)</span>
+                      <strong className="text-gold-light">Đậm Đà (Full-Bodied)</strong>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-dark/60 border border-gold/10">
+                      <span className="text-gold/70 block text-[10px] uppercase font-bold">Tannin (Độ Chát)</span>
+                      <strong className="text-gold-light">Mượt Như Nhung</strong>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-dark/60 border border-gold/10">
+                      <span className="text-gold/70 block text-[10px] uppercase font-bold">Hậu Vị (Finish)</span>
+                      <strong className="text-gold-light">Kéo Dài 45s+</strong>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-dark/60 border border-gold/10">
+                      <span className="text-gold/70 block text-[10px] uppercase font-bold">Thùng Ủ (Oak)</span>
+                      <strong className="text-gold-light">18 - 24 Tháng Sồi Pháp</strong>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-dark-card border border-gold/20">
-                  <h4 className="font-serif text-base font-bold text-gold-light mb-1">🥩 Perfect Food Pairing (Kết Hợp Món Ăn)</h4>
-                  <p>{product.foodPairing}</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-5 rounded-2xl bg-dark-card border border-gold/20 space-y-2">
+                    <h4 className="font-serif text-base font-bold text-gold-light flex items-center gap-2">
+                      <Utensils className="w-4 h-4 text-gold" /> Món Ăn Kết Hợp Lý Tưởng (Food Pairing)
+                    </h4>
+                    <p className="text-xs text-cream/80 leading-relaxed">{product.foodPairing}</p>
+                    <div className="pt-2 text-[11px] text-gold/80 italic">
+                      💡 Mẹo Sommelier: Kết hợp cùng các món thịt đỏ có tỷ lệ vân mỡ cao giúp làm mềm cấu trúc tanin của vang.
+                    </div>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-dark-card border border-gold/20 space-y-2">
+                    <h4 className="font-serif text-base font-bold text-gold-light flex items-center gap-2">
+                      <Thermometer className="w-4 h-4 text-gold" /> Thở Vang & Nhiệt Độ Phục Vụ
+                    </h4>
+                    <p className="text-xs text-cream/80 leading-relaxed font-bold">
+                      Nhiệt độ thích hợp: {product.servingTemp}
+                    </p>
+                    <p className="text-xs text-cream/70 leading-relaxed">
+                      Khuyến nghị rót ra bình Decanter lắc nhẹ và thở trong khoảng 60 - 90 phút trước khi thưởng thức để các tầng hương mở bung tối đa.
+                    </p>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-dark-card border border-gold/20">
-                  <h4 className="font-serif text-base font-bold text-gold-light mb-1">🌡️ Serving Temperature (Nhiệt Độ Phục Vụ)</h4>
-                  <p>{product.servingTemp}</p>
+
+                {/* AI Sommelier Consultation Card */}
+                <div className="p-4 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-6 h-6 text-gold animate-pulse" />
+                    <div>
+                      <h5 className="font-serif text-sm font-bold text-gold-light">Bạn cần chọn thực đơn tiệc cao cấp đi cùng chai vang này?</h5>
+                      <p className="text-xs text-cream/70">Hỏi ngay Trợ lý AI Sommelier để được tư vấn lộ trình kết hợp theo chuẩn 5 sao.</p>
+                    </div>
+                  </div>
+                  <Link
+                    href="/ai-assistant"
+                    className="px-4 py-2 rounded-xl bg-gold text-dark font-extrabold text-xs shadow-gold-glow hover:scale-105 transition-transform whitespace-nowrap"
+                  >
+                    Tư Vấn AI Sommelier
+                  </Link>
                 </div>
               </div>
             )}

@@ -67,12 +67,12 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-dark/90 backdrop-blur-xl">
+      <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/85 backdrop-blur-xl">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
-          className="relative w-full max-w-3xl glass-panel rounded-2xl border border-gold/30 shadow-luxury overflow-hidden"
+          className="relative w-full max-w-3xl bg-[#0F0E13] rounded-2xl border border-gold/30 shadow-2xl overflow-hidden"
         >
           {/* Header search bar */}
           <div className="relative p-4 sm:p-6 border-b border-gold/15 flex items-center gap-3">
