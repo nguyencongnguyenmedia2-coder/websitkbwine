@@ -150,13 +150,21 @@ export interface BlogPost {
   title: string;
   slug: string;
   thumbnail: string;
+  excerpt: string;
   content: string;
   category: string;
   author: string;
+  authorTitle?: string;
+  readTimeMinutes?: number;
   tags: string[];
+  focusKeyword?: string;
   seoTitle?: string;
   seoDescription?: string;
+  relatedProductIds?: string[];
+  viewsCount?: number;
+  isFeatured?: boolean;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface UserProfile {

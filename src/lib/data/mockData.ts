@@ -1211,28 +1211,55 @@ export const MOCK_COUPONS: Coupon[] = [
 export const MOCK_BLOGS: BlogPost[] = [
   {
     id: 'b-1',
-    title: 'Hướng Dẫn Thưởng Thức Vang Bordeaux Chuẩn Phong Cách Sommelier',
-    slug: 'huong-dan-thuong-thuc-vang-bordeaux',
+    title: 'Hướng Dẫn Thưởng Thức Rượu Vang Bordeaux Chuẩn Phong Cách Sommelier',
+    slug: 'huong-dan-thuong-thuc-ruou-vang-bordeaux',
     thumbnail: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&auto=format&fit=crop&q=80',
-    content: `Vùng Bordeaux nước Pháp từ lâu đã trở thành thánh địa bất tử trong thế giới rượu vang cao cấp...`,
+    excerpt: 'Khám phá bí quyết quy trình Decant, nhiệt độ phục vụ chuẩn 16°C và cách thưởng thức hương vị phức hợp của vang Bordeaux danh tiếng.',
+    content: `<h2>1. Di Sản Rượu Vang Bordeaux - Vùng Đất Của Những Huyền Thoại</h2>
+<p>Vùng Bordeaux nằm tại phía Tây Nam nước Pháp, sở hữu thổ nhưỡng đất đá vôi sỏi độc đáo cùng dòng sông Gironde trù phú. Nơi đây là quê hương của các dòng vang đỏ Bordeaux Blend danh giá gồm Cabernet Sauvignon, Merlot và Cabernet Franc.</p>
+
+<h2>2. Quy Trình Thở Vang (Decanting) Chuẩn 5 Sao</h2>
+<p>Đối với các niên vụ Bordeaux cổ kính (từ 10 năm tuổi trở lên), việc gạn vang ra bình Decanter giúp tách lớp lắng cặn tự nhiên đồng thời giải phóng các lớp tầng hương thơm như lá da thuộc, lá xì-gà, sô-cô-la đắng và mứt quả mọng.</p>
+<blockquote>Sommelier khuyên dùng: Decant từ 60 đến 120 phút ở nhiệt độ hầm lạnh 16°C - 18°C trước khi rót ra ly Bordeaux Glass thân cao.</blockquote>
+
+<h2>3. Nghệ Thuật Phối Vị Thực Đơn (Food Pairing)</h2>
+<p>Rượu vang Bordeaux có cấu trúc tanin vương giả, rất thích hợp khi thưởng thức cùng các món thịt đỏ có nồng độ đạm cao như Bò Wagyu A5 nướng đá, Sườn cừu đút lò thảo mộc hoặc Phô mai Gouda ủ 36 tháng.</p>`,
     category: 'Kiến thức rượu vang',
     author: 'Master Sommelier Hoàng Nam',
-    tags: ['Bordeaux', 'Thưởng thức vang', 'Decant'],
-    seoTitle: 'Bí Quyết Thưởng Thức Vang Bordeaux Cao Cấp',
-    seoDescription: 'Khám phá quy trình Decant, nhiệt độ phục vụ và nghệ thuật thử rượu vang Bordeaux chuẩn quốc tế.',
+    authorTitle: 'Giám định viên Vang Quốc Tế Court of Master Sommeliers',
+    readTimeMinutes: 6,
+    tags: ['Bordeaux', 'Rượu Vang Pháp', 'Decant', 'Tasting Note'],
+    focusKeyword: 'Rượu vang Bordeaux',
+    seoTitle: 'Bí Quyết Thưởng Thức Rượu Vang Bordeaux Chuẩn Sommelier',
+    seoDescription: 'Hướng dẫn chi tiết nhiệt độ phục vụ, quy trình Decant và nghệ thuật thử rượu vang Bordeaux nhập khẩu chính ngạch.',
+    relatedProductIds: ['p-1'],
+    viewsCount: 1420,
+    isFeatured: true,
     createdAt: '2026-02-01T08:00:00Z',
   },
   {
     id: 'b-2',
-    title: 'Top 5 Chai Rượu Vang Kết Hợp Hoàn Hảo Với Bò Wagyu A5',
+    title: 'Top 5 Chai Rượu Vang Đỏ Kết Hợp Hoàn Hảo Với Bò Wagyu A5',
     slug: 'top-5-chai-ruou-vang-ket-hop-bo-wagyu-a5',
     thumbnail: 'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=800&auto=format&fit=crop&q=80',
-    content: `Bò Wagyu A5 lừng danh bởi những vân mỡ cẩm thạch mịn màng ngậy béo. Để tôn vinh hương vị ấy...`,
+    excerpt: 'Gợi ý những dòng vang đỏ chát mượt đậm đà như Almaviva, Solaia và Penfolds Grange giúp cân bằng hoàn hảo độ béo ngậy của bò Wagyu Nhật Bản.',
+    content: `<h2>1. Tại Sao Bò Wagyu A5 Cần Chai Vang Đỏ Đậm Đà?</h2>
+<p>Thịt bò Wagyu A5 nổi tiếng thế giới nhờ mạng lưới vân mỡ cẩm thạch (Marbling) ngậy béo mềm tan trong miệng. Để không bị lấn gạt bởi mỡ bò, chai vang đi kèm phải sở hữu độ axit mượt mà cùng nồng độ cồn và lượng tanin đủ vương giả.</p>
+
+<h2>2. Những Chai Vang Đỏ Xuất Sắc Được Đề Xuất</h2>
+<p><strong>• Almaviva Baron Philippe de Rothschild:</strong> Sự kết hợp giữa kỹ nghệ Bordeaux và thổ nhưỡng Maipo Valley Chile mang lại hương thơm sô cô la và cà phê espresso.</p>
+<p><strong>• Solaia Toscana:</strong> Huyền thoại Super Tuscan nước Ý mang cấu trúc tròn vị và hậu vị kéo dài trên 45 giây.</p>`,
     category: 'Wine pairing',
     author: 'Chef Alexandre V.',
-    tags: ['Wagyu A5', 'Wine Pairing', 'Steak'],
-    seoTitle: 'Cách Chọn Rượu Vang Ăn Cùng Bò Wagyu A5',
-    seoDescription: 'Gợi ý những chai vang đỏ đậm đà như Lafite, Opus One, Barolo tôn vinh vị béo ngậy của thịt bò Wagyu.',
+    authorTitle: 'Bếp Trưởng Điều Hành Nhà Hàng 3 Sao Michelin',
+    readTimeMinutes: 5,
+    tags: ['Wagyu A5', 'Wine Pairing', 'Vang Đỏ', 'Steak'],
+    focusKeyword: 'Vang ăn bò Wagyu A5',
+    seoTitle: 'Cách Chọn Rượu Vang Kết Hợp Bò Wagyu A5 Chuẩn Vị 5 Sao',
+    seoDescription: 'Gợi ý những chai vang đỏ chát đậm như Almaviva, Solaia, Penfolds Grange tôn vinh vị béo ngậy ngào ngạt của thịt bò Wagyu.',
+    relatedProductIds: ['p-4', 'p-5', 'p-6'],
+    viewsCount: 2150,
+    isFeatured: true,
     createdAt: '2026-01-25T08:00:00Z',
   },
   {
@@ -1240,12 +1267,24 @@ export const MOCK_BLOGS: BlogPost[] = [
     title: 'Nghệ Thuật Chọn Rượu Vang Biếu Tặng Đối Tác Doanh Nghiệp VIP',
     slug: 'nghe-thuat-chon-ruou-vang-bieu-tang-doi-tac-vip',
     thumbnail: 'https://images.unsplash.com/photo-1569919659476-f0852f6834b7?w=800&auto=format&fit=crop&q=80',
-    content: `Một chai vang cao cấp không chỉ là món quà vật chất mà còn thể hiện tầm vóc và sự trân trọng...`,
+    excerpt: 'Bí quyết lựa chọn các dòng Champagne Dom Pérignon hay Bordeaux Grand Cru Classé sang trọng trao gửi thành ý tới đối tác kinh doanh.',
+    content: `<h2>1. Ý Nghĩa Của Món Quà Rượu Vang Trong Giao Thương</h2>
+<p>Một chai vang quý không đơn thuần là món quà tinh tế mà còn thể hiện tầm nhìn, gu thẩm mỹ và lòng trân trọng thành ý dành cho đối tác chiến lược trong các dịp lễ tết hay ký kết hợp đồng.</p>
+
+<h2>2. Các Bộ Quà Tặng Đẳng Cấp Tại KBWINE</h2>
+<p>• Hộp Vang Đôi Sồi Pháp Cao Cấp kèm bộ khui vang bằng đồng mạ vàng 24k.</p>
+<p>• Bộ Sưu Tập Champagne Dom Pérignon / Cristal kèm hộp gỗ bọc da cá sấu sang trọng.</p>`,
     category: 'Quà tặng',
     author: 'WINECELLAR Editor',
-    tags: ['Quà tặng doanh nghiệp', 'Champagne', 'Luxury'],
-    seoTitle: 'Rượu Vang Quà Tặng Doanh Nghiệp Sang Trọng',
-    seoDescription: 'Bí quyết chọn lựa các hộp quà rượu vang nhập khẩu cao cấp cho đối tác kinh doanh.',
+    authorTitle: 'Chuyên Gia Quà Tặng Doanh Nghiệp KBWINE Boutique',
+    readTimeMinutes: 4,
+    tags: ['Quà tặng doanh nghiệp', 'Champagne', 'Luxury', 'Hộp Quà VIP'],
+    focusKeyword: 'Rượu vang quà tặng đối tác',
+    seoTitle: 'Rượu Vang Quà Tặng Doanh Nghiệp Sang Trọng & Đẳng Cấp',
+    seoDescription: 'Bí quyết chọn lựa các hộp quà rượu vang nhập khẩu cao cấp làm quà biếu đối tác VIP.',
+    relatedProductIds: ['p-2', 'p-1'],
+    viewsCount: 980,
+    isFeatured: false,
     createdAt: '2026-01-15T08:00:00Z',
   },
 ];
