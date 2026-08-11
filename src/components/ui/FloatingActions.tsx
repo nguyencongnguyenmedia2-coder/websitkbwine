@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, ArrowUp, PhoneCall, Home, Wine, ShoppingBag, User } from 'lucide-react';
+import { Sparkles, ArrowUp, PhoneCall, Home, Wine, ShoppingBag, User, Gift } from 'lucide-react';
 import { useAdminStore } from '@/store/useAdminStore';
 import { useCartStore } from '@/store/useCartStore';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -50,6 +50,18 @@ export default function FloatingActions() {
             <span className="relative inline-flex rounded-full h-3 w-3 bg-gold"></span>
           </span>
         </Link>
+
+        {/* Promo Banner Re-open Floating Button */}
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('open_kbwine_promo'))}
+          className="group relative flex items-center gap-2 p-3.5 rounded-full bg-burgundy/90 hover:bg-burgundy border border-gold/50 text-gold-light shadow-wine-glow hover:scale-110 transition-all duration-300"
+          title="Xem Ưu Đãi Bánh + Vang"
+        >
+          <Gift className="w-5 h-5 text-gold animate-bounce" />
+          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out text-xs font-bold text-cream pr-1">
+            Ưu Đãi Bánh + Vang
+          </span>
+        </button>
 
         {/* Zalo / Phone Quick Contact */}
         <a

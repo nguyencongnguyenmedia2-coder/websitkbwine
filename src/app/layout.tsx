@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ToastContainer from '@/components/ui/ToastContainer';
+import AgeGateModal from '@/components/ui/AgeGateModal';
+import PromoBannerModal from '@/components/ui/PromoBannerModal';
 
 export const metadata: Metadata = {
   title: 'KBWINE | Premium Luxury Wine Store',
@@ -61,8 +63,11 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-dark text-cream selection:bg-gold selection:text-dark min-h-screen">
         {children}
+        <AgeGateModal />
+        <PromoBannerModal />
         <ToastContainer />
       </body>
     </html>
   );
 }
+
